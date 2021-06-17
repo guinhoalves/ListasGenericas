@@ -1,4 +1,4 @@
-package com.example.listas_genericas
+package com.hba.listas_genericas
 
 import io.flutter.embedding.android.FlutterActivity
 
