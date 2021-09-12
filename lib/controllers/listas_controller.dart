@@ -35,6 +35,26 @@ class ListasController extends GetxController {
     update();
   }
 
+  Future<void> updateLista(String nome) async {
+    ListaModel lista = listas.firstWhere(
+      (e) => e.selecionado == true,
+    );
+    int indexLista = listas.indexOf(
+      listas.firstWhere(
+        (e) => e.selecionado == true,
+      ),
+    );
+    lista.titulo = nome;
+    lista.selecionado = false;
+    listasBox.putAt(
+      indexLista,
+      lista.toJson(),
+    );
+    listasSelecionadas.clear();
+    Get.back();
+    update();
+  }
+
   Future<void> removeListas(List listasDelete) async {
     for (var i = 0; i < listasDelete.length; i++) {
       listasBox.deleteAt(listas.indexOf(listas.firstWhere(
@@ -147,6 +167,14 @@ class ListasController extends GetxController {
       lst.selecionado = true;
       listasSelecionadas.add(lst);
     }
+    update();
+  }
+
+  void cancelSelectListas() {
+    for (var i = 0; i < listas.length; i++) {
+      listas[i].selecionado = false;
+    }
+    listasSelecionadas.clear();
     update();
   }
 }

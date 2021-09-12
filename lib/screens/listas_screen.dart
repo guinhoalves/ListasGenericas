@@ -12,9 +12,69 @@ class ListasScreen extends GetView {
       builder: (ListasController controller) {
         return Scaffold(
           appBar: AppBar(
+            leading: Visibility(
+              visible: ct.listasSelecionadas.length > 0,
+              child: InkWell(
+                child: Center(
+                  child: Icon(
+                    Icons.close,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                ),
+                onLongPress: () {},
+                onTap: () => ct.cancelSelectListas(),
+              ),
+            ),
             title: ct.listasSelecionadas.length > 0
                 ? Text("${ct.listasSelecionadas.length} Iten(s) Selecionado(s)")
                 : Text("MINHAS LISTAS"),
+            actions: [
+              Visibility(
+                visible: ct.listasSelecionadas.length == 1,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {
+                      ct.nmLista.text = ct.listasSelecionadas[0].titulo;
+                      Get.bottomSheet(
+                        ButtonSheetWidget(
+                          nmLista: ct.nmLista,
+                          onPressed: () {
+                            ct.updateLista(ct.nmLista.text);
+                            ct.nmLista.clear();
+                          },
+                        ),
+                        barrierColor: Colors.transparent,
+                      );
+                    },
+                    child: Center(
+                      child: Icon(
+                        Icons.edit_rounded,
+                        size: 24,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: ct.listasSelecionadas.length > 0,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () => ct.confirmaDeleteListas(ct.listasSelecionadas),
+                    child: Center(
+                      child: Icon(
+                        Icons.delete_forever,
+                        size: 24,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -38,27 +98,22 @@ class ListasScreen extends GetView {
                 gradient: LinearGradient(
                   begin: Alignment.bottomRight,
                   end: Alignment.topLeft,
-                  colors: ct.listasSelecionadas.length > 0
-                      ? <Color>[
-                          Colors.redAccent,
-                          Colors.red.shade700,
-                        ]
-                      : <Color>[
-                          Colors.teal.shade300,
-                          Colors.blue.shade700,
-                        ],
+                  colors: <Color>[
+                    Colors.teal.shade300,
+                    Colors.blue.shade700,
+                  ],
                 ),
               ),
               child: Center(
                 child: Icon(
-                  ct.listasSelecionadas.length > 0 ? Icons.delete : Icons.add,
+                  Icons.add,
                   size: 32,
                   color: Colors.white,
                 ),
               ),
             ),
             onPressed: ct.listasSelecionadas.length > 0
-                ? () => ct.confirmaDeleteListas(ct.listasSelecionadas)
+                ? null
                 : () => Get.bottomSheet(
                       ButtonSheetWidget(
                         nmLista: ct.nmLista,
