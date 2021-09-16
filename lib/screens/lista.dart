@@ -83,6 +83,7 @@
 //         ),
 //       ),
 //       child: Scaffold(
+  
 //         backgroundColor: Colors.transparent,
 //         appBar: AppBar(
 //           title: Text(widget.nomeLista),
@@ -93,40 +94,40 @@
 //           children: <Widget>[
 //             Container(
 //               padding: EdgeInsets.fromLTRB(17.0, 17.0, 7.0, 1.0),
-//               child: Row(
-//                 children: <Widget>[
-//                   Expanded(
-//                     child: TextField(
-//                       cursorColor: Colors.black,
-//                       controller: _nomeItemController,
-//                       decoration: InputDecoration(
-//                         focusedBorder: OutlineInputBorder(
-//                           borderRadius: BorderRadius.circular(15),
-//                           borderSide: BorderSide(color: Colors.blueGrey.shade900, width: 2.0),
-//                         ),
-//                         labelText: "Nome do Item",
-//                         labelStyle: TextStyle(color: Colors.blueGrey.shade900),
-//                       ),
-//                     ),
-//                   ),
-//                   SizedBox(width: 20),
-//                   FlatButton(
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: new BorderRadius.circular(50),
-//                       ),
-//                       color: Colors.blueGrey.shade900,
-//                       child: Text("ADD"),
-//                       textColor: Colors.white,
-//                       onPressed: () {
-//                         newItemLista.idListaPai = widget.idLista;
-//                         newItemLista.nome = _nomeItemController.text;
-//                         newItemLista.status = 0;
-//                         _addItem(newItemLista);
-//                       }),
-//                   SizedBox(width: 10.0),
-//                 ],
-//               ),
-//             ),
+              //  Row(
+              //   children: <Widget>[
+              //     Expanded(
+              //       child: TextField(
+              //         cursorColor: Colors.black,
+              //         controller: _nomeItemController,
+              //         decoration: InputDecoration(
+              //           focusedBorder: OutlineInputBorder(
+              //             borderRadius: BorderRadius.circular(15),
+              //             borderSide: BorderSide(color: Colors.blueGrey.shade900, width: 2.0),
+              //           ),
+              //           labelText: "Nome do Item",
+              //           labelStyle: TextStyle(color: Colors.blueGrey.shade900),
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(width: 20),
+              //     FlatButton(
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: new BorderRadius.circular(50),
+              //         ),
+              //         color: Colors.blueGrey.shade900,
+              //         child: Text("ADD"),
+              //         textColor: Colors.white,
+              //         onPressed: () {
+              //           newItemLista.idListaPai = widget.idLista;
+              //           newItemLista.nome = _nomeItemController.text;
+              //           newItemLista.status = 0;
+              //           _addItem(newItemLista);
+              //         }),
+              //     SizedBox(width: 10.0),
+              //   ],
+              // ),
+            //),
 //             Expanded(
 //               child: RefreshIndicator(
 //                 onRefresh: _refresh,

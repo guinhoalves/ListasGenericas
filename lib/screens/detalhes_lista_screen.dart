@@ -1,7 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:listas_genericas/controllers/detalhes_lista_controller.dart';
-import 'package:listas_genericas/widgets/botao_circular_widget.dart';
 
 class DetalhesListaScreen extends GetView {
   final ct = Get.put(DetalhesListaController());
@@ -12,6 +13,7 @@ class DetalhesListaScreen extends GetView {
       init: ct,
       builder: (DetalhesListaController controller) {
         return Scaffold(
+          backgroundColor: Colors.blueGrey.shade600,
           appBar: AppBar(
             title: Text(
               ct.lista.titulo.toUpperCase(),
@@ -31,109 +33,123 @@ class DetalhesListaScreen extends GetView {
             ),
             centerTitle: true,
           ),
-          body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft,
-                colors: <Color>[
-                  Colors.teal.shade300,
-                  Colors.blue.shade700,
-                ],
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  right: 30,
-                  bottom: 30,
-                  child: Stack(
-                    children: [
-                      Transform.translate(
-                        offset: Offset.fromDirection(
-                          ct.getRadiansFromDegree(270),
-                          ct.degOneTranslationAnimation.value * 100,
-                        ),
-                        child: Transform(
-                          transform: Matrix4.rotationZ(
-                            ct.getRadiansFromDegree(ct.rotationAnimation.value),
-                          )..scale(ct.degOneTranslationAnimation.value),
-                          alignment: Alignment.center,
-                          child: CircularButton(
-                            width: 50,
-                            height: 50,
-                            color: Colors.blue,
-                            icon: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                            ),
-                            onClick: () {},
+          body: ListView(
+            //padding: EdgeInsets.all(10),
+            children: [
+              Container(
+                padding: EdgeInsets.all(10),
+                height: 120,
+                //color: Colors.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        cursorColor: Colors.teal,
+                        //controller: _nomeItemController,
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide(color: Colors.teal, width: 2.0),
                           ),
+                          labelText: "Nome do Item",
+                          labelStyle: TextStyle(color: Colors.teal),
                         ),
                       ),
-                      Transform.translate(
-                        offset: Offset.fromDirection(
-                          ct.getRadiansFromDegree(225),
-                          ct.degTwoTranslationAnimation.value * 100,
-                        ),
-                        child: Transform(
-                          transform: Matrix4.rotationZ(
-                            ct.getRadiansFromDegree(ct.rotationAnimation.value),
-                          )..scale(ct.degTwoTranslationAnimation.value),
-                          alignment: Alignment.center,
-                          child: CircularButton(
-                            width: 50,
-                            height: 50,
-                            color: Colors.black,
-                            icon: Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
-                            ),
-                            onClick: () {},
-                          ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      width: 60,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: <Color>[
+                            Colors.tealAccent,
+                            Colors.green.shade600,
+                          ],
                         ),
                       ),
-                      Transform.translate(
-                        offset: Offset.fromDirection(
-                            ct.getRadiansFromDegree(180), ct.degThreeTranslationAnimation.value * 100),
-                        child: Transform(
-                          transform: Matrix4.rotationZ(
-                            ct.getRadiansFromDegree(ct.rotationAnimation.value),
-                          )..scale(ct.degThreeTranslationAnimation.value),
-                          alignment: Alignment.center,
-                          child: CircularButton(
-                            width: 50,
-                            height: 50,
-                            color: Colors.orangeAccent,
-                            icon: Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
-                            onClick: () {},
-                          ),
-                        ),
-                      ),
-                      Transform(
-                        transform: Matrix4.rotationZ(
-                          ct.getRadiansFromDegree(ct.rotationAnimation.value),
-                        ),
-                        alignment: Alignment.center,
-                        child: CircularButton(
-                          width: 60,
-                          height: 60,
-                          color: Colors.red,
-                          icon: Icon(
-                            Icons.menu,
+                      child: Center(
+                        child: Text(
+                          "ADD",
+                          style: TextStyle(
                             color: Colors.white,
                           ),
-                          onClick: () => ct.mostraOpcoes(),
                         ),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                height: Get.height,
+                child: ListView.builder(
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Card(
+                        elevation: 10.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: <Color>[
+                                Colors.teal.shade300,
+                                Colors.blue.shade700,
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Material(
+                            child: InkWell(
+                              splashColor: Colors.tealAccent,
+                              borderRadius: BorderRadius.circular(25),
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: <Color>[
+                                          Colors.teal.shade300,
+                                          Colors.blue.shade700,
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: Icon(Icons.check),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text('Nome do Item'),
+                                ],
+                              ),
+                            ),
+                            color: Colors.transparent,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              )
+            ],
           ),
         );
       },
