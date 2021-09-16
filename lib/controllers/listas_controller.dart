@@ -22,12 +22,22 @@ class ListasController extends GetxController {
 
   Future<void> getAllListas() async {
     listasBox = await Hive.openBox('listas');
-    listasBox.values.forEach((e) => listas.add(ListaModel.fromJson(e)));
+    for (var item in listasBox.values) {
+      int id = 0;
+      item['id'] = id;
+      id++;
+      listas.add(ListaModel.fromJson(item));
+    }
     update();
   }
 
   Future<void> addLista(String nome) async {
-    ListaModel lista = ListaModel(titulo: nome, status: 1, selecionado: false);
+    ListaModel lista = ListaModel(
+      titulo: nome,
+      status: 1,
+      selecionado: false,
+      itens: [],
+    );
     listas.add(lista);
     await listasBox.add(lista.toJson());
 
@@ -57,11 +67,16 @@ class ListasController extends GetxController {
 
   Future<void> removeListas(List listasDelete) async {
     for (var i = 0; i < listasDelete.length; i++) {
-      listasBox.deleteAt(listas.indexOf(listas.firstWhere(
-          (e) => e.selecionado == listasDelete[i].selecionado && e.titulo == listasDelete[i].titulo)));
-
-      listas.removeWhere(
-          (e) => e.selecionado == listasDelete[i].selecionado && e.titulo == listasDelete[i].titulo);
+      listasBox.deleteAt(
+        listas.indexOf(
+          listas.firstWhere((e) =>
+              e.selecionado == listasDelete[i].selecionado &&
+              e.titulo == listasDelete[i].titulo),
+        ),
+      );
+      listas.removeWhere((e) =>
+          e.selecionado == listasDelete[i].selecionado &&
+          e.titulo == listasDelete[i].titulo);
     }
     listasSelecionadas.clear();
     Get.back();
@@ -70,7 +85,8 @@ class ListasController extends GetxController {
   Future<void> confirmaDeleteListas(List listasDelete) async {
     Get.defaultDialog(
       title: "Atenção!",
-      middleText: 'Tem certeza que deseja excluir ${listasDelete.length} lista(s)?',
+      middleText:
+          'Tem certeza que deseja excluir ${listasDelete.length} lista(s)?',
       actions: [
         Container(
           height: 40,

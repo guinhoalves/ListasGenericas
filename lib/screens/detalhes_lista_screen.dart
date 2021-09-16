@@ -47,11 +47,12 @@ class DetalhesListaScreen extends GetView {
                     Expanded(
                       child: TextField(
                         cursorColor: Colors.teal,
-                        //controller: _nomeItemController,
+                        controller: ct.nmItemLista,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                            borderSide:
+                                BorderSide(color: Colors.teal, width: 2.0),
                           ),
                           labelText: "Nome do Item",
                           labelStyle: TextStyle(color: Colors.teal),
@@ -75,11 +76,14 @@ class DetalhesListaScreen extends GetView {
                           ],
                         ),
                       ),
-                      child: Center(
-                        child: Text(
-                          "ADD",
-                          style: TextStyle(
-                            color: Colors.white,
+                      child: InkWell(
+                        onTap: () => ct.addItemLista(ct.nmItemLista.text),
+                        child: Center(
+                          child: Text(
+                            "ADD",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),

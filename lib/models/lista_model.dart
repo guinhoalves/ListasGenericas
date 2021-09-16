@@ -1,23 +1,29 @@
 import 'item_lista_model.dart';
 
 class ListaModel {
+  int? id;
   String titulo;
   int? status;
   bool selecionado;
-  List<ItemListaModel>? itens = [];
+  List<ItemListaModel> itens;
 
   ListaModel({
     required this.titulo,
     this.status,
     this.selecionado = false,
-    this.itens,
+    required this.itens,
   });
 
   ListaModel.fromJson(dynamic json)
-      : titulo = json['titulo'],
+      : id = json['id'],
+        titulo = json['titulo'],
         status = json['status'],
         selecionado = json['selecionado'],
-        itens = List<ItemListaModel>.from(json["itens"].map((x) => ItemListaModel.fromJson(x)));
+        itens = List.from(
+          json["itens"].map(
+            (x) => ItemListaModel.fromJson(x),
+          ),
+        );
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -25,7 +31,7 @@ class ListaModel {
     data['titulo'] = titulo;
     data['status'] = status;
     data['selecionado'] = selecionado;
-    data['itens'] = itens;
+    data['itens'] = this.itens.map((v) => v.toJson()).toList();
     return data;
   }
 }
