@@ -36,4 +36,12 @@ class DetalhesListaController extends GetxController {
     nmItemLista.clear();
     update();
   }
+
+  Future<void> checkItem(int index) async {
+    lista.itens[index].selecionado == true
+        ? lista.itens[index].selecionado = false
+        : lista.itens[index].selecionado = true;
+    await listasBox.putAt(lista.id!, lista.toJson());
+    update();
+  }
 }

@@ -54,7 +54,7 @@ class DetalhesListaScreen extends GetView {
                             borderSide: BorderSide(color: Colors.white, width: 1.0),
                           ),
                           labelText: "Nome do Item",
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       ),
                     ),
@@ -63,9 +63,9 @@ class DetalhesListaScreen extends GetView {
                     ),
                     Container(
                       width: 60,
-                      height: 30,
+                      height: 45,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(15),
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -108,10 +108,15 @@ class DetalhesListaScreen extends GetView {
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: <Color>[
-                                Colors.teal.shade300,
-                                Colors.blue.shade700,
-                              ],
+                              colors: ct.lista.itens[index].selecionado
+                                  ? <Color>[
+                                      Colors.teal.shade300,
+                                      Colors.blue.shade700,
+                                    ]
+                                  : <Color>[
+                                      Colors.yellow.shade200,
+                                      Colors.yellow.shade900,
+                                    ],
                             ),
                             borderRadius: BorderRadius.circular(25),
                           ),
@@ -119,7 +124,9 @@ class DetalhesListaScreen extends GetView {
                             child: InkWell(
                               splashColor: Colors.tealAccent,
                               borderRadius: BorderRadius.circular(25),
-                              onTap: () {},
+                              onTap: () {
+                                ct.checkItem(index);
+                              },
                               child: Row(
                                 children: [
                                   Container(
@@ -128,19 +135,33 @@ class DetalhesListaScreen extends GetView {
                                       gradient: LinearGradient(
                                         begin: Alignment.topLeft,
                                         end: Alignment.bottomRight,
-                                        colors: <Color>[
-                                          Colors.teal.shade300,
-                                          Colors.blue.shade700,
-                                        ],
+                                        colors: ct.lista.itens[index].selecionado
+                                            ? <Color>[
+                                                Colors.teal.shade300,
+                                                Colors.blue.shade700,
+                                              ]
+                                            : <Color>[
+                                                Colors.yellow.shade200,
+                                                Colors.yellow.shade900,
+                                              ],
                                       ),
                                       borderRadius: BorderRadius.circular(25),
                                     ),
-                                    child: Icon(Icons.check),
+                                    child: ct.lista.itens[index].selecionado
+                                        ? Icon(Icons.check)
+                                        : Icon(Icons.priority_high),
                                   ),
                                   SizedBox(
                                     width: 20,
                                   ),
-                                  Text(ct.lista.itens[index].nome),
+                                  Text(
+                                    ct.lista.itens[index].nome,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: ct.lista.itens[index].selecionado ? Colors.white : Colors.black,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
