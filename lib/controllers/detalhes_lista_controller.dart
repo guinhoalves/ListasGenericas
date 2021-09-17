@@ -22,21 +22,18 @@ class DetalhesListaController extends GetxController {
       lista = Get.arguments[0];
       getAllListas();
     }
-
     super.onInit();
   }
 
   Future<void> getAllListas() async {
     listasBox = await Hive.openBox('listas');
-
     update();
   }
 
   Future<void> addItemLista(String nome) async {
     lista.itens.add(ItemListaModel(nome: nome, tipo: "String"));
     await listasBox.putAt(lista.id!, lista.toJson());
-
-    Get.back();
+    nmItemLista.clear();
     update();
   }
 }

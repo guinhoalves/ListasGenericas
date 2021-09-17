@@ -55,7 +55,10 @@ class ButtonSheetWidget extends GetView {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(15),
                     splashColor: Colors.blue.shade600,
-                    onTap: () => Get.back(),
+                    onTap: () {
+                      nmLista.clear();
+                      Get.back();
+                    },
                     onLongPress: () {},
                     child: Center(
                       child: Text(

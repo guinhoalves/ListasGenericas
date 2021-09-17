@@ -69,14 +69,12 @@ class ListasController extends GetxController {
     for (var i = 0; i < listasDelete.length; i++) {
       listasBox.deleteAt(
         listas.indexOf(
-          listas.firstWhere((e) =>
-              e.selecionado == listasDelete[i].selecionado &&
-              e.titulo == listasDelete[i].titulo),
+          listas.firstWhere(
+              (e) => e.selecionado == listasDelete[i].selecionado && e.titulo == listasDelete[i].titulo),
         ),
       );
-      listas.removeWhere((e) =>
-          e.selecionado == listasDelete[i].selecionado &&
-          e.titulo == listasDelete[i].titulo);
+      listas.removeWhere(
+          (e) => e.selecionado == listasDelete[i].selecionado && e.titulo == listasDelete[i].titulo);
     }
     listasSelecionadas.clear();
     Get.back();
@@ -85,8 +83,7 @@ class ListasController extends GetxController {
   Future<void> confirmaDeleteListas(List listasDelete) async {
     Get.defaultDialog(
       title: "Atenção!",
-      middleText:
-          'Tem certeza que deseja excluir ${listasDelete.length} lista(s)?',
+      middleText: 'Tem certeza que deseja excluir ${listasDelete.length} lista(s)?',
       actions: [
         Container(
           height: 40,
@@ -95,7 +92,9 @@ class ListasController extends GetxController {
             child: InkWell(
               borderRadius: BorderRadius.circular(15),
               splashColor: Colors.blue.shade600,
-              onTap: () => Get.back(),
+              onTap: () {
+                Get.back();
+              },
               onLongPress: () {},
               child: Center(
                 child: Text(

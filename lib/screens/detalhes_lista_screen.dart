@@ -46,16 +46,15 @@ class DetalhesListaScreen extends GetView {
                   children: [
                     Expanded(
                       child: TextField(
-                        cursorColor: Colors.teal,
+                        cursorColor: Colors.white,
                         controller: ct.nmItemLista,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
-                            borderSide:
-                                BorderSide(color: Colors.teal, width: 2.0),
+                            borderSide: BorderSide(color: Colors.white, width: 1.0),
                           ),
                           labelText: "Nome do Item",
-                          labelStyle: TextStyle(color: Colors.teal),
+                          labelStyle: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
@@ -95,7 +94,7 @@ class DetalhesListaScreen extends GetView {
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 height: Get.height,
                 child: ListView.builder(
-                  itemCount: 3,
+                  itemCount: ct.lista.itens.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -141,7 +140,7 @@ class DetalhesListaScreen extends GetView {
                                   SizedBox(
                                     width: 20,
                                   ),
-                                  Text('Nome do Item'),
+                                  Text(ct.lista.itens[index].nome),
                                 ],
                               ),
                             ),
