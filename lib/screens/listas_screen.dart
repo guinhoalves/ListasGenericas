@@ -28,7 +28,7 @@ class ListasScreen extends GetView {
             ),
             title: ct.listasSelecionadas.length > 0
                 ? Text("${ct.listasSelecionadas.length} Iten(s) Selecionado(s)")
-                : Text("MINHAS LISTAS"),
+                : Text("LISTAS GENÉRICAS"),
             actions: [
               Visibility(
                 visible: ct.listasSelecionadas.length == 1,
@@ -149,6 +149,7 @@ class ListasScreen extends GetView {
                                     '/detalhesLista',
                                     arguments: [
                                       ct.listas[index],
+                                      ct.listasBox,
                                     ],
                                   ),
                           child: ListTile(
@@ -157,7 +158,9 @@ class ListasScreen extends GetView {
                               ct.listas[index].titulo.toUpperCase(),
                               style: TextStyle(fontSize: 18),
                             ),
-                            subtitle: Text('breve descrição da lista'),
+                            subtitle: ct.listas[index].itens.length > 0
+                                ? Text('Você Possui ${ct.listas[index].itens.length} Itens Nesta Lista.')
+                                : Text('Nenhum Item Nesta Lista.'),
                             trailing: Icon(
                               Icons.touch_app_outlined,
                               color: Colors.white,

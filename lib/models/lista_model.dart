@@ -8,6 +8,7 @@ class ListaModel {
   List<ItemListaModel> itens;
 
   ListaModel({
+    this.id,
     required this.titulo,
     this.status,
     this.selecionado = false,
@@ -15,8 +16,8 @@ class ListaModel {
   });
 
   ListaModel.fromJson(dynamic json)
-      : id = json['id'],
-        titulo = json['titulo'],
+      : titulo = json['titulo'],
+        id = json['id'],
         status = json['status'],
         selecionado = json['selecionado'],
         itens = List.from(
@@ -27,7 +28,7 @@ class ListaModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-
+    data['id'] = id;
     data['titulo'] = titulo;
     data['status'] = status;
     data['selecionado'] = selecionado;

@@ -22,10 +22,10 @@ class ListasController extends GetxController {
 
   Future<void> getAllListas() async {
     listasBox = await Hive.openBox('listas');
+    int id = 0;
     for (var item in listasBox.values) {
-      int id = 0;
       item['id'] = id;
-      id++;
+      id = id + 1;
       listas.add(ListaModel.fromJson(item));
     }
     update();
@@ -33,6 +33,7 @@ class ListasController extends GetxController {
 
   Future<void> addLista(String nome) async {
     ListaModel lista = ListaModel(
+      id: listas.length,
       titulo: nome,
       status: 1,
       selecionado: false,
