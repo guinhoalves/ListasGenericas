@@ -159,7 +159,8 @@ class ListasScreen extends GetView {
                               style: TextStyle(fontSize: 18),
                             ),
                             subtitle: ct.listas[index].itens.length > 0
-                                ? Text('Você Possui ${ct.listas[index].itens.length} Itens Nesta Lista.')
+                                ? Obx(() =>
+                                    Text('Você Possui ${ct.listas[index].itens.length} Itens Nesta Lista.'))
                                 : Text('Nenhum Item Nesta Lista.'),
                             trailing: Icon(
                               Icons.touch_app_outlined,
