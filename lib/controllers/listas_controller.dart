@@ -3,20 +3,25 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:listas_genericas/models/lista_model.dart';
 
-class ListasController extends GetxController {
+class ListasController extends GetxController with GetSingleTickerProviderStateMixin {
   List listas = [].obs;
   TextEditingController nmLista = TextEditingController();
   late Box listasBox;
   List listasSelecionadas = [].obs;
-
+  late final AnimationController animationController;
   @override
   void onInit() {
-    getAllListas();
     super.onInit();
+    getAllListas();
+    animationController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
   }
 
   @override
   void onClose() {
+    animationController.dispose();
     super.onClose();
   }
 

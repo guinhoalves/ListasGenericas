@@ -1,18 +1,14 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:listas_genericas/controllers/detalhes_lista_controller.dart';
 import 'package:listas_genericas/widgets/button_sheet.dart';
 
 class DetalhesListaScreen extends GetView {
-  final ct = Get.put(DetalhesListaController());
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init: ct,
-      builder: (DetalhesListaController controller) {
+      init: DetalhesListaController(),
+      builder: (DetalhesListaController ct) {
         return Scaffold(
           backgroundColor: Colors.blueGrey.shade600,
           appBar: AppBar(
@@ -39,7 +35,7 @@ class DetalhesListaScreen extends GetView {
                         ),
                       ),
                       onLongPress: () {},
-                      onTap: () => Get.offAllNamed('/home'),
+                      onTap: () => Get.back(),
                     ),
             ),
             title: ct.itensSelecionados.length > 0
@@ -172,96 +168,121 @@ class DetalhesListaScreen extends GetView {
                   child: ListView.builder(
                     itemCount: ct.lista.itens.length,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Card(
-                          elevation: 10.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: ct.lista.itens[index].selecionado
-                                    ? <Color>[
-                                        Colors.grey.shade300,
-                                        Colors.grey.shade700,
-                                      ]
-                                    : ct.lista.itens[index].feito
-                                        ? <Color>[
-                                            Colors.teal.shade200,
-                                            Colors.blue.shade700,
-                                          ]
-                                        : <Color>[
-                                            Colors.yellow.shade200,
-                                            Colors.yellow.shade900,
-                                          ],
-                              ),
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Material(
-                              child: InkWell(
-                                //splashColor: Colors.tealAccent,
-                                borderRadius: BorderRadius.circular(25),
-                                onLongPress: () => ct.selectedItemLista(ct.lista.itens[index]),
-                                onTap: ct.itensSelecionados.length > 0
-                                    ? () => ct.selectedItemLista(ct.lista.itens[index])
-                                    : () => ct.checkItem(index),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          colors: ct.lista.itens[index].selecionado
-                                              ? <Color>[
-                                                  Colors.grey.shade300,
-                                                  Colors.grey.shade700,
-                                                ]
-                                              : ct.lista.itens[index].feito
-                                                  ? <Color>[
-                                                      Colors.teal.shade200,
-                                                      Colors.blue.shade700,
-                                                    ]
-                                                  : <Color>[
-                                                      Colors.yellow.shade200,
-                                                      Colors.yellow.shade900,
-                                                    ],
-                                        ),
+                      final int count = ct.lista.itens.length > 10 ? 10 : ct.lista.itens.length;
+                      final Animation<double> animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+                        CurvedAnimation(
+                          parent: ct.animationController,
+                          curve: Interval((1 / count) * index, 1.0, curve: Curves.fastOutSlowIn),
+                        ),
+                      );
+                      ct.animationController.forward();
+                      return AnimatedBuilder(
+                        animation: ct.animationController,
+                        builder: (BuildContext context, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: Transform(
+                              transform: Matrix4.translationValues(0.0, 50 * (1.0 - animation.value), 0.0),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5),
+                                child: Card(
+                                  elevation: 10.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: ct.lista.itens[index].selecionado
+                                            ? <Color>[
+                                                Colors.grey.shade300,
+                                                Colors.grey.shade700,
+                                              ]
+                                            : ct.lista.itens[index].feito
+                                                ? <Color>[
+                                                    Colors.teal.shade200,
+                                                    Colors.blue.shade700,
+                                                  ]
+                                                : <Color>[
+                                                    Colors.yellow.shade200,
+                                                    Colors.yellow.shade900,
+                                                  ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: Material(
+                                      child: InkWell(
+                                        //splashColor: Colors.tealAccent,
                                         borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      child: ct.lista.itens[index].feito
-                                          ? Icon(Icons.check)
-                                          : Icon(Icons.priority_high),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Flexible(
-                                      child: Text(
-                                        ct.lista.itens[index].nome,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: ct.lista.itens[index].selecionado
-                                              ? Colors.white
-                                              : ct.lista.itens[index].feito
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                        onLongPress: () => ct.selectedItemLista(ct.lista.itens[index]),
+                                        onTap: ct.itensSelecionados.length > 0
+                                            ? () => ct.selectedItemLista(ct.lista.itens[index])
+                                            : () => ct.checkItem(index),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                  colors: ct.lista.itens[index].selecionado
+                                                      ? <Color>[
+                                                          Colors.grey.shade300,
+                                                          Colors.grey.shade700,
+                                                        ]
+                                                      : ct.lista.itens[index].feito
+                                                          ? <Color>[
+                                                              Colors.teal.shade200,
+                                                              Colors.blue.shade700,
+                                                            ]
+                                                          : <Color>[
+                                                              Colors.yellow.shade200,
+                                                              Colors.yellow.shade900,
+                                                            ],
+                                                ),
+                                                borderRadius: BorderRadius.circular(25),
+                                              ),
+                                              child: ct.lista.itens[index].feito
+                                                  ? Icon(Icons.check)
+                                                  : Icon(Icons.priority_high),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                ct.lista.itens[index].nome,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration: ct.lista.itens[index].feito
+                                                      ? TextDecoration.lineThrough
+                                                      : TextDecoration.none,
+                                                  decorationColor: Colors.black,
+                                                  decorationStyle: TextDecorationStyle.solid,
+                                                  decorationThickness: 1.0,
+                                                  color: ct.lista.itens[index].selecionado
+                                                      ? Colors.white
+                                                      : ct.lista.itens[index].feito
+                                                          ? Colors.white
+                                                          : Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
+                                      color: Colors.transparent,
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                              color: Colors.transparent,
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       );
                     },
                   ),

@@ -5,20 +5,27 @@ import 'package:listas_genericas/models/item_lista_model.dart';
 
 import 'package:listas_genericas/models/lista_model.dart';
 
-class DetalhesListaController extends GetxController {
+class DetalhesListaController extends GetxController with GetSingleTickerProviderStateMixin {
   late ListaModel lista;
   late Box listasBox;
   List itens = [].obs;
   TextEditingController nmItemLista = TextEditingController();
   List itensSelecionados = [].obs;
+  late final AnimationController animationController;
 
   @override
   void onClose() {
+    exitClear();
+    nmItemLista.clear();
+    itensSelecionados.clear();
+    itens.clear();
+    animationController.dispose();
     super.onClose();
   }
 
   @override
   void onInit() {
+    super.onInit();
     if (Get.arguments != null) {
       lista = Get.arguments[0];
       listasBox = Get.arguments[1];
@@ -26,7 +33,10 @@ class DetalhesListaController extends GetxController {
         gerarIdItensLista();
       }
     }
-    super.onInit();
+    animationController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
   }
 
   Future<void> gerarIdItensLista() async {
@@ -217,5 +227,12 @@ class DetalhesListaController extends GetxController {
     }
     itensSelecionados.clear();
     update();
+  }
+
+  void exitClear() {
+    for (var i = 0; i < lista.itens.length; i++) {
+      lista.itens[i].selecionado = false;
+    }
+    itensSelecionados.clear();
   }
 }
